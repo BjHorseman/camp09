@@ -17,7 +17,7 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
                 }else{
                     //does user own the campground?
                    
-                    if(foundCampground.author.id.equals(req.user._id))
+                    if(foundCampground.author.id.equals(req.user._id)  || req.user.isAdmin)
                     {
                         next();
                     }
@@ -37,12 +37,12 @@ middlewareObj.checkCampgroundOwnership = function(req, res, next){
 
 middlewareObj.checkCommentOwnership = function(req, res, next){
      if(req.isAuthenticated()){
-                Comment.findById(req.params.comment_id,function(err,foundComment){
+                Comment.findById(req.params.comment_id,function(err,foundComment ){
                 if(err){
                    res.redirect("back");
                 }else{
                     //does user own the cooment?
-                    if(foundComment.author.id.equals(req.user._id))
+                    if(foundComment.author.id.equals(req.user._id)|| req.user.isAdmin)
                     {
                         next();
                     }

@@ -1,7 +1,9 @@
 <% include ../partials/header %>
 
+<% if(currentUser && currentUser.isAdmin ){%>
+    <h1>Welcome Administrator</h1>
+<% } %>
 
-<div class="container">
     <header class="jumbotron">
         <div class="container">
             <h1>Welcome To LandingView!</h1>
@@ -26,8 +28,8 @@
                         </p>
                     </div>
                 </div>
-            <%});%>
+            <% });%>
         </div>
-    </div>
+   
 
 <% include ../partials/footer %>
