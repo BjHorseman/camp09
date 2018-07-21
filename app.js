@@ -20,7 +20,7 @@ var commentRoutes       = require("./routes/comments"),
 
 //seed the database
 // seedDB();
-
+app.locals.moment = require('moment');
 app.use(flash());
 mongoose.connect("mongodb://localhost:27017/camp");
 app.use(bodyParser.urlencoded({extended: true}));

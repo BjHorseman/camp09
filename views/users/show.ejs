@@ -2,15 +2,13 @@
 <div class="row">
     <div class="col-md=4">
         <div class="thumbnail">
-            <h1><%= user.firstName + " " + user.lastName%></h1>
+            <h1><%= user.username+" "%>profile</h1>
             <div class="caption"><a href="mailto:<%= user.email %>"><%=user.email%></a></div>
         </div>
-         dghffds fasdkjf haskjdhf kasjdhf kjasdhf j
-        asdfhkjasdhfkjashdflasjdhf
-        asdhfkajsdhfkjasdhf
+        <!--profile personal picture go here-->
     </div>
     <div class="col-md-8">
-        <h3><%=user.username%>'s campgrounds:</h3>
+        <h3><%=user.username%>'s history post:</h3>
         <ul>
         <% campgrounds.forEach(function(campground){%>
             <li><a href="/campgrounds/<%= campground.id%>"><%= campground.name%></a></li>

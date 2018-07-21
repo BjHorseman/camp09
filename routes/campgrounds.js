@@ -27,9 +27,22 @@ var cloudinary = require('cloudinary');
 
 //index show all campgrounds
 router.get("/",function(req,res){
-       
+       if(req.query.search){
+            const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+            //get all campgrounds from db
+            Campground.find({name:regex }).sort({'_id':-1}).limit(6).exec(function(err,allCampgrounds){
+            if(err)
+            {
+                console.log(err);
+            }else{
+                if(allCampgrounds.length<1){
+                    // var noMatch = "No campgrounds match that query,"
+                }
+                res.render("campgrounds/index",{campgrounds:allCampgrounds, currentUser: req.user});
+            }
+        });
+       }else{
         //get all campgrounds from DB
-        
         Campground.find({}).sort({'_id':-1}).limit(6).exec(function(err,allCampgrounds){
             if(err)
             {
@@ -38,7 +51,7 @@ router.get("/",function(req,res){
                 res.render("campgrounds/index",{campgrounds:allCampgrounds, currentUser: req.user});
             }
         });
-        // res.render("campgrounds",{campgrounds:campgrounds});
+       }
 });
  
 //create add new campground to database
@@ -48,6 +61,8 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         req.flash('error', err.message);
         return res.redirect('back');
       }
+      
+      req.body.campground.price=result.price;
       // add cloudinary url for the image to the campground object under image property
       req.body.campground.image = result.secure_url;
       // add image's public_id to campground object
@@ -57,7 +72,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         id: req.user._id,
         username: req.user.username
       }
-      Campground.create(req.body.campground, function(err, campground) {
+      Campground.create(req.body.campground, function(er6666, campground) {
         if (err) {
           req.flash('error', err.message);
           return res.redirect('back');
@@ -77,7 +92,9 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 router.get("/:id", function(req, res){
     //find the campground with provided ID
     Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
-        if(err){
+        if(err || !foundCampground){
+            req.flash("error","Campground not found");
+            res.redirect("back");
             console.log(err);
         } else {
             console.log(foundCampground)
@@ -117,6 +134,7 @@ router.put("/:id", upload.single('image'), function(req, res){
                   var result = await cloudinary.v2.uploader.upload(req.file.path);
                   campground.imageId = result.public_id;
                   campground.image = result.secure_url;
+                  campground.price = result.price;
               } catch(err) {
                   req.flash("error", err.message);
                   return res.redirect("back");
@@ -152,5 +170,7 @@ router.delete('/:id', function(req, res) {
   });
 });
 
-
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 module.exports = router;
