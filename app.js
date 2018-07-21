@@ -22,8 +22,8 @@ var commentRoutes       = require("./routes/comments"),
 // seedDB();
 app.locals.moment = require('moment');
 app.use(flash());
-mongoose.connect("mongodb://localhost:27017/camp");
-// mongoose.connect("mongodb://Max:Ma612345@ds245901.mlab.com:45901/captainmaxfirstship");
+// mongoose.connect("mongodb://localhost:27017/camp");
+mongoose.connect("mongodb://Max:Ma612345@ds245901.mlab.com:45901/captainmaxfirstship");
  
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
