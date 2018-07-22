@@ -14,7 +14,8 @@
                 <img class = "img-responsive " src="<%= campground.image %>">
                 <div class="caption">
                      <!--this should be connect with $ campground.price with % sign-->
-                    <h4 class="pull-right"></h4>
+                     <!--console.log(req.body.campground.price);-->
+                    <h4 class="pull-right">$<%=campground.price%></h4>
                     <h4><a><%=campground.name%></a></h4>
                     <p><%= campground.description %></p>
                     <p>
