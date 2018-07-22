@@ -109,7 +109,7 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
         return res.redirect('back');
       }
       //add price
-      req.body.campground.price = req.body.price;
+    //   req.body.campground.price = req.body.price;
       // add cloudinary url for the image to the campground object under image property
       req.body.campground.image = result.secure_url;
       // add image's public_id to campground object
