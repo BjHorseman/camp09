@@ -186,6 +186,7 @@ router.put("/:id", upload.single('image'), function(req, res){
                   return res.redirect("back");
               }
             }
+            campground.price = req.body.campground.price;
             campground.name = req.body.campground.name;
             campground.description = req.body.campground.description;
             campground.save();
